@@ -4,6 +4,13 @@ A comprehensive workflow management system built with Laravel 12 (backend) and V
 
 ## Features
 
+### Internationalization (i18n)
+- **Multi-language Support**: Full support for English and Arabic languages
+- **RTL/LTR Layout**: Automatic right-to-left layout for Arabic
+- **Language Switcher**: Easy toggle between languages with instant UI updates
+- **Persistent Preference**: Language selection saved in browser localStorage
+- **Arabic Typography**: Custom Arabic fonts (Cairo, Tajawal) for better readability
+
 ### User Management
 - **Role-Based Access Control**: Admin, Manager, Employee, and User roles
 - **Department Assignment**: Users can be assigned to multiple departments with different roles
@@ -14,6 +21,7 @@ A comprehensive workflow management system built with Laravel 12 (backend) and V
 - **Request Tracking**: Full history of request transitions between departments
 - **Status Management**: Pending, In Review, Need More Details, Completed, Rejected
 - **Attachments**: Support for file uploads with each request
+- **Edit & Resubmit**: Users can edit and resubmit requests that need more details
 
 ### Workflow System
 - **Custom Workflow Paths**: Define multiple workflow paths with sequential department steps
@@ -47,9 +55,11 @@ A comprehensive workflow management system built with Laravel 12 (backend) and V
 ### Frontend
 - **Vue.js 3**: Progressive JavaScript framework
 - **Composition API**: Modern Vue.js patterns with `<script setup>`
+- **Vue I18n**: Internationalization and localization
 - **Pinia**: State management
 - **Vue Router**: Client-side routing
 - **Axios**: HTTP client
+- **Vite**: Fast development build tool
 
 ## Installation Instructions
 
@@ -130,36 +140,57 @@ A comprehensive workflow management system built with Laravel 12 (backend) and V
 
 ## Default Users
 
-After running the seeders, the following users are available:
+After running the seeders, the following users are available. All users have the password: **password**
 
-### Admin
-- **Email**: admin@workflow.com
-- **Password**: password
-- **Role**: Admin (full system access)
+### System Users
+- **Admin**: `admin@workflow.com` - Full system access
+- **User**: `user@workflow.com` - Can submit requests
 
 ### Department A Manager
-- **Email**: dept-a-manager@workflow.com
-- **Password**: password
-- **Role**: Manager in Department A
+- **Manager A**: `manager.a@workflow.com` - Reviews and assigns workflow paths
 
 ### Department Managers
-- **IT Manager**: it-manager@workflow.com / password
-- **Finance Manager**: finance-manager@workflow.com / password
-- **Legal Manager**: legal-manager@workflow.com / password
-- **HR Manager**: hr-manager@workflow.com / password
+- **Tech Manager**: `manager.tech@workflow.com` - Technology department
+- **Finance Manager**: `manager.finance@workflow.com` - Finance department
+- **Legal Manager**: `manager.legal@workflow.com` - Legal department
+- **Strategy Manager**: `manager.strategy@workflow.com` - Strategy department
+- **HR Manager**: `manager.hr@workflow.com` - Human Resources department
 
 ### Department Employees
-- **IT Employee**: it-employee@workflow.com / password
-- **Finance Employee**: finance-employee@workflow.com / password
-- **Legal Employee**: legal-employee@workflow.com / password
-- **HR Employee**: hr-employee@workflow.com / password
+- **Tech Employee 1**: `emp.tech1@workflow.com`
+- **Tech Employee 2**: `emp.tech2@workflow.com`
+- **Finance Employee**: `emp.finance@workflow.com`
+- **Legal Employee**: `emp.legal@workflow.com`
+- **Strategy Employee 1**: `emp.strategy1@workflow.com`
+- **Strategy Employee 2**: `emp.strategy2@workflow.com`
+- **HR Employee 1**: `emp.hr1@workflow.com`
+- **HR Employee 2**: `emp.hr2@workflow.com`
 
-### Regular User
-- **Email**: user@workflow.com
-- **Password**: password
-- **Role**: Regular user (can submit requests)
+> **Note**: The login page includes a convenient test accounts section where you can click on any account to auto-fill the credentials.
 
 ## Usage Guide
+
+### Language Selection
+The application supports both English and Arabic languages:
+
+1. **Switching Languages**: Click the language switcher button (🌐) in the top-right corner
+   - Current language: "عربي" (when in English) or "English" (when in Arabic)
+   - Click to instantly switch between languages
+
+2. **RTL Support**: When Arabic is selected:
+   - Layout automatically switches to right-to-left
+   - All UI elements, navigation, and text adjust accordingly
+   - Arabic fonts (Cairo, Tajawal) are applied for better readability
+
+3. **Persistent Selection**: Your language preference is automatically saved and will be remembered on your next visit
+
+4. **Supported Pages** (currently translated):
+   - Login page
+   - Dashboard
+   - My Requests
+   - New Request form
+
+> **Note**: Additional pages (Request Details, Workflow Review, Department Workflow, Admin Panel) will be translated in future updates.
 
 ### For Regular Users
 1. Login with user credentials
@@ -336,18 +367,26 @@ workflow-app/                 # Laravel backend
 workflow-frontend/            # Vue.js frontend
 ├── src/
 │   ├── components/
+│   │   └── LanguageSwitcher.vue    # Language toggle component
+│   ├── locales/
+│   │   ├── en.json                  # English translations
+│   │   └── ar.json                  # Arabic translations
 │   ├── stores/
-│   │   └── auth.js
+│   │   └── auth.js                  # Authentication store
 │   ├── views/
 │   │   ├── Login.vue
 │   │   ├── Dashboard.vue
-│   │   ├── CreateRequest.vue
+│   │   ├── MyRequests.vue
+│   │   ├── NewRequest.vue
+│   │   ├── RequestDetail.vue
 │   │   ├── WorkflowReview.vue
 │   │   ├── DepartmentWorkflow.vue
 │   │   └── AdminPanel.vue
 │   ├── router/
-│   │   └── index.js
-│   └── App.vue
+│   │   └── index.js                 # Route definitions
+│   ├── i18n.js                      # i18n configuration
+│   ├── main.js                      # App entry point
+│   └── App.vue                      # Root component
 └── ...
 ```
 
