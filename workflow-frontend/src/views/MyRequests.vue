@@ -2,8 +2,8 @@
   <div class="page-container">
     <div class="page-card">
       <div class="header">
-        <button @click="goBack" class="btn-back">← Back</button>
-        <h1>My Requests</h1>
+        <button @click="goBack" class="btn-back">← {{ $t('common.back') }}</button>
+        <h1>{{ $t('nav.myRequests') }}</h1>
       </div>
 
       <div v-if="error" class="alert alert-error">
@@ -11,12 +11,12 @@
       </div>
 
       <div v-if="isLoading" class="loading">
-        Loading your requests...
+        {{ $t('common.loading') }}
       </div>
 
       <div v-else-if="requests.length === 0" class="empty-state">
-        <p>You haven't submitted any requests yet.</p>
-        <button @click="createNew" class="btn-primary">Create New Request</button>
+        <p>{{ $t('request.noRequests') }}</p>
+        <button @click="createNew" class="btn-primary">{{ $t('request.newRequest') }}</button>
       </div>
 
       <div v-else class="requests-list">
@@ -48,19 +48,19 @@
 
           <div class="request-meta">
             <span class="meta-item">
-              <strong>Submitted:</strong>
+              <strong>{{ $t('request.submittedAt') }}:</strong>
               {{ formatDate(request.submitted_at || request.created_at) }}
             </span>
             <span v-if="request.current_department" class="meta-item">
-              <strong>Current:</strong> {{ request.current_department.name }}
+              <strong>{{ $t('request.currentDepartment') }}:</strong> {{ request.current_department.name }}
             </span>
             <span v-if="request.workflow_path" class="meta-item">
-              <strong>Path:</strong> {{ request.workflow_path.name }}
+              <strong>{{ $t('request.workflowPath') }}:</strong> {{ request.workflow_path.name }}
             </span>
           </div>
 
           <div v-if="request.attachments && request.attachments.length > 0" class="attachments">
-            {{ request.attachments.length }} attachment(s)
+            {{ request.attachments.length }} {{ $t('request.attachments') }}
           </div>
         </div>
       </div>
@@ -72,10 +72,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const { t } = useI18n()
 
 const requests = ref([])
 const error = ref(null)
@@ -84,16 +86,16 @@ const filterStatus = ref('all')
 
 const API_URL = 'http://localhost:8000/api'
 
-const statuses = [
-  { label: 'All', value: 'all' },
-  { label: 'Draft', value: 'draft' },
-  { label: 'Pending', value: 'pending' },
-  { label: 'In Review', value: 'in_review' },
-  { label: 'Need Details', value: 'need_more_details' },
-  { label: 'Approved', value: 'approved' },
-  { label: 'Rejected', value: 'rejected' },
-  { label: 'Completed', value: 'completed' }
-]
+const statuses = computed(() => [
+  { label: t('common.all'), value: 'all' },
+  { label: t('status.draft'), value: 'draft' },
+  { label: t('status.pending'), value: 'pending' },
+  { label: t('status.in_review'), value: 'in_review' },
+  { label: t('status.need_more_details'), value: 'need_more_details' },
+  { label: t('status.approved'), value: 'approved' },
+  { label: t('status.rejected'), value: 'rejected' },
+  { label: t('status.completed'), value: 'completed' }
+])
 
 const filteredRequests = computed(() => {
   if (filterStatus.value === 'all') {
@@ -136,10 +138,7 @@ const viewDetails = (id) => {
 }
 
 const formatStatus = (status) => {
-  return status
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
+  return t(`status.${status}`)
 }
 
 const formatDate = (dateString) => {

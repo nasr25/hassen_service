@@ -2,8 +2,8 @@
   <div class="page-container">
     <div class="page-card">
       <div class="header">
-        <button @click="goBack" class="btn-back">← Back</button>
-        <h1>{{ isEditMode ? 'Edit Request' : 'New Request' }}</h1>
+        <button @click="goBack" class="btn-back">← {{ $t('common.back') }}</button>
+        <h1>{{ isEditMode ? $t('request.editRequest') : $t('request.newRequest') }}</h1>
       </div>
 
       <div v-if="error" class="alert alert-error">
@@ -16,41 +16,41 @@
 
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
-          <label for="title">Request Title *</label>
+          <label for="title">{{ $t('request.title') }} *</label>
           <input
             type="text"
             id="title"
             v-model="form.title"
-            placeholder="Enter a clear title for your request"
+            :placeholder="$t('request.titlePlaceholder')"
             required
             maxlength="255"
           />
         </div>
 
         <div class="form-group">
-          <label for="description">Description *</label>
+          <label for="description">{{ $t('request.description') }} *</label>
           <textarea
             id="description"
             v-model="form.description"
-            placeholder="Provide detailed information about your request"
+            :placeholder="$t('request.descriptionPlaceholder')"
             rows="6"
             required
           ></textarea>
         </div>
 
         <div v-if="isEditMode" class="form-group">
-          <label for="additional_details">Additional Details</label>
+          <label for="additional_details">{{ $t('request.additionalDetails') }}</label>
           <textarea
             id="additional_details"
             v-model="form.additional_details"
-            placeholder="Add any additional information requested by the reviewer"
+            :placeholder="$t('request.additionalDetailsPlaceholder')"
             rows="4"
           ></textarea>
-          <p class="help-text">Use this field to address feedback from the review process</p>
+          <p class="help-text">{{ $t('request.additionalDetailsHelp') }}</p>
         </div>
 
         <div class="form-group">
-          <label for="file">Attachments (Optional)</label>
+          <label for="file">{{ $t('request.attachments') }} ({{ $t('request.optional') }})</label>
           <input
             type="file"
             id="file"
@@ -58,11 +58,11 @@
             accept="*/*"
             ref="fileInput"
           />
-          <p class="help-text">Maximum file size: 10MB</p>
+          <p class="help-text">{{ $t('request.maxFileSize') }}</p>
         </div>
 
         <div v-if="uploadedFiles.length > 0" class="uploaded-files">
-          <h3>Uploaded Files:</h3>
+          <h3>{{ $t('request.uploadedFiles') }}:</h3>
           <div
             v-for="file in uploadedFiles"
             :key="file.id"
@@ -74,7 +74,7 @@
               @click="removeFile(file.id)"
               class="btn-remove"
             >
-              Remove
+              {{ $t('request.removeFile') }}
             </button>
           </div>
         </div>
@@ -86,14 +86,14 @@
             :disabled="isLoading || !form.title || !form.description"
             class="btn-secondary"
           >
-            {{ isLoading ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Save Draft') }}
+            {{ isLoading ? $t('common.saving') : (isEditMode ? $t('request.saveChanges') : $t('request.saveDraft')) }}
           </button>
           <button
             type="submit"
             :disabled="isLoading || !form.title || !form.description"
             class="btn-primary"
           >
-            {{ isLoading ? 'Submitting...' : (isEditMode ? 'Resubmit Request' : 'Submit Request') }}
+            {{ isLoading ? $t('common.submitting') : (isEditMode ? $t('request.resubmitRequest') : $t('request.submitRequest')) }}
           </button>
         </div>
       </form>

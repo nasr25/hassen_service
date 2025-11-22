@@ -4,8 +4,8 @@
       <LanguageSwitcher />
     </div>
     <div class="login-card">
-      <h1>🚀 Workflow System</h1>
-      <p class="subtitle">Login to access your workflow dashboard</p>
+      <h1>🚀 {{ $t('auth.login') }} - {{ $t('nav.dashboard') }}</h1>
+      <p class="subtitle">{{ $t('dashboard.subtitle') }}</p>
 
       <div v-if="error" class="alert alert-error">
         {{ error }}
@@ -13,29 +13,29 @@
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email">{{ $t('auth.email') }}</label>
           <input
             type="email"
             id="email"
             v-model="form.email"
-            placeholder="Enter your email"
+            :placeholder="$t('auth.email')"
             required
           />
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">{{ $t('auth.password') }}</label>
           <input
             type="password"
             id="password"
             v-model="form.password"
-            placeholder="Enter your password"
+            :placeholder="$t('auth.password')"
             required
           />
         </div>
 
         <button type="submit" :disabled="isLoading" class="btn-primary">
-          {{ isLoading ? 'Logging in...' : 'Login' }}
+          {{ isLoading ? $t('common.loading') : $t('auth.login') }}
         </button>
       </form>
 

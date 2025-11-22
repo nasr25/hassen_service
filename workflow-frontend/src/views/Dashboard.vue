@@ -4,15 +4,15 @@
       <LanguageSwitcher />
     </div>
     <div class="dashboard-card">
-      <h1>Dashboard</h1>
-      <p class="subtitle">Welcome to your workflow system</p>
+      <h1>{{ $t('dashboard.title') }}</h1>
+      <p class="subtitle">{{ $t('dashboard.subtitle') }}</p>
 
       <div v-if="user" class="user-info">
-        <h2>User Information</h2>
-        <p><strong>Name:</strong> {{ user.name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
+        <h2>{{ $t('dashboard.userInfo') }}</h2>
+        <p><strong>{{ $t('auth.name') }}:</strong> {{ user.name }}</p>
+        <p><strong>{{ $t('auth.email') }}:</strong> {{ user.email }}</p>
         <p>
-          <strong>Role:</strong>
+          <strong>{{ $t('dashboard.role') }}:</strong>
           <span :class="['badge', `badge-${user.role}`]">
             {{ user.role.toUpperCase() }}
           </span>
@@ -20,35 +20,34 @@
       </div>
 
       <div class="notice">
-        <strong>🎉 Success!</strong>
-        You are now logged in to the Vue.js workflow application.
-        Full workflow features (requests, approvals, admin panel) will be added next.
+        <strong>🎉 {{ $t('common.welcome') }}!</strong>
+        {{ $t('dashboard.subtitle') }}
       </div>
 
       <div class="quick-actions">
         <div class="action-card" @click="goToRequests">
-          <h3>📝 My Requests</h3>
-          <p>View and manage your requests</p>
+          <h3>📝 {{ $t('dashboard.myRequests.title') }}</h3>
+          <p>{{ $t('dashboard.myRequests.description') }}</p>
         </div>
         <div v-if="isUser" class="action-card" @click="goToNewRequest">
-          <h3>➕ New Request</h3>
-          <p>Submit a new workflow request</p>
+          <h3>➕ {{ $t('dashboard.newRequest.title') }}</h3>
+          <p>{{ $t('dashboard.newRequest.description') }}</p>
         </div>
         <div v-if="user?.email === 'manager.a@workflow.com' || isAdmin" class="action-card" @click="goToWorkflowReview">
-          <h3>🔍 Review Requests</h3>
-          <p>Department A workflow review</p>
+          <h3>🔍 {{ $t('dashboard.reviewRequests.title') }}</h3>
+          <p>{{ $t('dashboard.reviewRequests.description') }}</p>
         </div>
-        <div v-if="(isManagerOrEmployee && user?.email !== 'manager.a@workflow.com') || isAdmin" class="action-card" @click="goToDepartmentWorkflow">
-          <h3>🔄 Department Workflow</h3>
-          <p>Manage department requests</p>
+        <div v-if="(isManagerOrEmployee && user?.email !== 'manager.a@workflow.com') || isAdmin" class="action-card" @click="goDepartmentWorkflow">
+          <h3>🔄 {{ $t('dashboard.departmentWorkflow.title') }}</h3>
+          <p>{{ $t('dashboard.departmentWorkflow.description') }}</p>
         </div>
         <div v-if="isAdmin" class="action-card" @click="goToAdmin">
-          <h3>⚙️ Admin Panel</h3>
-          <p>Manage departments and users</p>
+          <h3>⚙️ {{ $t('dashboard.adminPanel.title') }}</h3>
+          <p>{{ $t('dashboard.adminPanel.description') }}</p>
         </div>
       </div>
 
-      <button @click="handleLogout" class="btn-logout">Logout</button>
+      <button @click="handleLogout" class="btn-logout">{{ $t('common.logout') }}</button>
 
       <div v-if="message" class="alert alert-info">
         {{ message }}
